@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Grafik – {{ current_month }}/{{ current_year }}{% endblock %}
+
+{% block content %}
+
+<h1>Grafik na {{ current_month }}/{{ current_year }}</h1>
+
+<form method="post" action="{{ url_for('main.zapisz_grafik', schedule_id=schedule.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <style>
+        table.grafik {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+        }
+        table.grafik th, table.grafik td {
+            border: 1px solid #999;
+            text-align: center;
+            padding: 4px;
+            font-size: 14px;
+        }
+        table.grafik input {
+            width: 90%;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+        }
+        table.grafik input:disabled {
+            background-color: #eee;
+        }
+        th.pracownik-col {
+            width: 150px;
+        }
+    </style>
+
+    <table class="grafik">
+        <thead>
+            <tr>
+                <th class="pracownik-col">Pracownik</th>
+                {% for day in days %}
+                    <th>{{ day }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for pracownik in pracownicy %}
+            <tr>
+                <td><strong>{{ pracownik.imie }} {{ pracownik.nazwisko }}</strong></td>
+                {% for day in days %}
+                    {% set d = date(current_year, current_month, day).isoformat() %}
+                    {% set shift_text = '' %}
+                    {% for s in shifts %}
+                        {% if s.employee_id == pracownik.id and s.date.isoformat() == d %}
+                            {% set shift_text = s.shift_time %}
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        <input type="text" name="shifts[{{ pracownik.id }}][{{ d }}]"
+                               value="{{ shift_text }}"
+                               {% if schedule.is_published %} disabled {% endif %}>
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if not schedule.is_published %}
+        <button type="submit">Zapisz zmiany</button>
+        <button type="submit" formaction="{{ url_for('main.opublikuj_grafik', schedule_id=schedule.id) }}">Opublikuj grafik</button>
+    {% else %}
+        <p>Grafik opublikowany – edycja wyłączona</p>
+    {% endif %}
+</form>
+
+{% endblock %}
