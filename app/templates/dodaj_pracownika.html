@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2 class="text-2xl font-bold mb-4">Dodaj nowego pracownika</h2>
+
+  <form method="POST" class="max-w-md bg-white p-6 shadow rounded space-y-4">
+    {{ form.csrf_token }}
+
+    <div>
+      {{ form.imie.label(class="block mb-1") }}
+      {{ form.imie(class="w-full border p-2 rounded") }}
+    </div>
+
+    <div>
+      {{ form.nazwisko.label(class="block mb-1") }}
+      {{ form.nazwisko(class="w-full border p-2 rounded") }}
+    </div>
+
+    <div>
+      {{ form.email.label(class="block mb-1") }}
+      {{ form.email(class="w-full border p-2 rounded") }}
+    </div>
+
+    <div>
+      {{ form.haslo.label(class="block mb-1") }}
+      {{ form.haslo(class="w-full border p-2 rounded") }}
+    </div>
+
+    <div>
+      {{ form.rola.label(class="block mb-1") }}
+      {{ form.rola(class="w-full border p-2 rounded") }}
+    </div>
+
+    <div>
+      {{ form.submit(class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700") }}
+    </div>
+  </form>
+{% endblock %}

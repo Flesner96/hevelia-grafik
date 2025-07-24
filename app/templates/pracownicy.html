@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="text-2xl font-bold mb-4">Pracownicy</h2>
+
+<a href="{{ url_for('main.dodaj_pracownika') }}" class="inline-block mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+  ➕ Dodaj pracownika
+</a>
+
+<table class="w-full bg-white shadow rounded">
+  <thead class="bg-gray-100">
+    <tr>
+      <th class="text-left p-2">Imię</th>
+      <th class="text-left p-2">Nazwisko</th>
+      <th class="text-left p-2">Email</th>
+      <th class="text-left p-2">Rola</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in pracownicy %}
+    <tr class="border-t">
+      <td class="p-2">{{ p.imie }}</td>
+      <td class="p-2">{{ p.nazwisko }}</td>
+      <td class="p-2">{{ p.email }}</td>
+      <td class="p-2">{{ p.rola }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
