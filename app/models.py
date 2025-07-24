@@ -8,3 +8,4 @@ class Uzytkownik(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     haslo_hash = db.Column(db.String(200), nullable=False)
     rola = db.Column(db.String(50), nullable=False)
+

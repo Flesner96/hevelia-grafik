@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Witaj {{ user.imie }} {{ user.nazwisko }}</h2>
+  <p>Twoja rola: {{ user.rola }}</p>
+  {% if user.rola == 'manager' %}
+    <a href="{{ url_for('main.dodaj_pracownika') }}">➕ Dodaj pracownika</a>
+  {% endif %}
+{% endblock %}
